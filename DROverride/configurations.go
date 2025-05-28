@@ -94,8 +94,10 @@ func (h *DebugHandler) Handle(ctx context.Context, r slog.Record) error {
 			buf = fmt.Appendf(buf, "%*s}\n", indentation*2, " ")
 			indentation--
 		}
+		buf = append(buf, "\033[0m"...)
+	} else {
+		buf = append(buf, "\033[0m\n"...)
 	}
-	buf = append(buf, "\033[0m\n"...)
 
 	// Lock out the mutex so that there aren't multiple things being written to the io writer
 	h.mutex.Lock()
